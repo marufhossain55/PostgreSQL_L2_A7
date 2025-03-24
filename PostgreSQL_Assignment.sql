@@ -74,12 +74,6 @@ SELECT title FROM books WHERE stock = 0;
 
 -- 2️. Retrieve the most expensive book in the store.
 
-SELECT *
-FROM books
-ORDER BY price DESC
-LIMIT 1;
-
--- or
 SELECT * FROM books WHERE price = (SELECT MAX(price) FROM books);
 
 -- 3️. Find the total number of orders placed by each customer.
@@ -89,3 +83,36 @@ SELECT name,
 AS total_orders
 FROM customers c
 ORDER BY total_orders DESC;
+
+-- 4️. Calculate the total revenue generated from book sales.
+
+SELECT SUM((SELECT price FROM books WHERE id = o.book_id) * o.quantity) 
+AS total_revenue
+FROM orders o;
+
+
+-- 5️. List all customers who have placed more than one order.SELECT c.name, COUNT(o.id) AS orders_count
+SELECT c.name, COUNT(o.id) AS orders_count
+FROM customers c
+LEFT JOIN orders o ON c.id = o.customer_id
+GROUP BY c.id, c.name
+HAVING COUNT(o.id) > 1
+ORDER BY orders_count DESC;
+
+
+-- 6️. Find the average price of books in the store.
+SELECT ROUND(AVG(price), 2) AS avg_book_price
+FROM books;
+
+
+-- 7️. Increase the price of all books published before 2000 by 10%.(No table output, but affected rows will be removed accordingly.)
+
+-- if you want to show the table after updating just run select * from books
+
+UPDATE books
+SET price = price * 1.10
+WHERE published_year < 2000;
+
+--8️. Delete customers who haven't placed any orders.
+DELETE FROM customers
+WHERE id NOT IN (SELECT DISTINCT customer_id FROM orders);

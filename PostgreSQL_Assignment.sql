@@ -1,8 +1,8 @@
--- Active: 1742206811194@@127.0.0.1@5432@bookstore_db
+
 --Database creation using the given name bookstore_db
 CREATE DATABASE bookstore_db
 
-
+-- to see if i am in the correct database
 SELECT current_database();
 -- .sql file creation for query named PostgreSQL_Assignment.sql
 

@@ -68,7 +68,24 @@ INSERT INTO orders (customer_id, book_id, quantity, order_date) VALUES
 (3, 4, 1, '2024-01-15'), 
 (4, 5, 3, '2024-02-01'); 
 
+-- 1️. Find books that are out of stock.
 
+SELECT title FROM books WHERE stock = 0;
 
+-- 2️. Retrieve the most expensive book in the store.
 
+SELECT *
+FROM books
+ORDER BY price DESC
+LIMIT 1;
 
+-- or
+SELECT * FROM books WHERE price = (SELECT MAX(price) FROM books);
+
+-- 3️. Find the total number of orders placed by each customer.
+
+SELECT name,  
+(SELECT COUNT(*) FROM orders o WHERE o.customer_id = c.id) 
+AS total_orders
+FROM customers c
+ORDER BY total_orders DESC;

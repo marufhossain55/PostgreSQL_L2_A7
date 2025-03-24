@@ -2,5 +2,3 @@
 CREATE DATABASE bookstore_db
 -- .sql file creation for query named PostgreSQL_Assignment.sql
 
-
-
